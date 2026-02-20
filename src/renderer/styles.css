@@ -1,0 +1,201 @@
+:root {
+  --bg: #111111;
+  --panel: #1a1a1a;
+  --card: #202020;
+  --card-hover: #262626;
+  --line: #343434;
+  --text: #f3f3f3;
+  --muted: #b8b8b8;
+  --danger: #d9d9d9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "SF Pro Text", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 375px;
+  padding: 14px;
+  background: var(--panel);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.app-header p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #1b1b1b;
+  color: var(--text);
+}
+
+.icon-btn.is-loading .refresh-icon {
+  animation: spin 0.85s linear infinite;
+}
+
+.lucide {
+  width: 14px;
+  height: 14px;
+  display: block;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  pointer-events: none;
+}
+
+.status {
+  margin-top: 12px;
+  min-height: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.process-list {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.process-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  padding: 10px;
+}
+
+.process-item:hover {
+  background: var(--card-hover);
+}
+
+.process-item--clickable {
+  cursor: pointer;
+}
+
+.process-main {
+  position: relative;
+  display: grid;
+  gap: 4px;
+}
+
+.process-title {
+  font-size: 15px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.process-meta {
+  font-size: 12px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.kill-btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid #5a5a5a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.spinner-icon {
+  animation: spin 0.8s linear infinite;
+}
+
+.kill-btn:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: end;
+}
+
+.process-main[data-cwd]:hover::after {
+  content: attr(data-cwd);
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  background: #0f0f0f;
+  color: var(--text);
+  border: 1px solid #4a4a4a;
+  border-radius: 6px;
+  padding: 5px 7px;
+  font-size: 11px;
+  white-space: nowrap;
+  max-width: min(340px, 85vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.empty {
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

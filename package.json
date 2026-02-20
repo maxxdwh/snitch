@@ -1,0 +1,12 @@
+{
+  "name": "snitch-app",
+  "version": "0.1.0",
+  "description": "macOS menu bar utility for local listening processes",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^36.0.0"
+  }
+}
