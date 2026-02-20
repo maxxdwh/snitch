@@ -1,12 +1,28 @@
 {
   "name": "snitch-app",
+  "productName": "Snitch",
   "version": "0.1.0",
   "description": "macOS menu bar utility for local listening processes",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "icon:mac": "./scripts/build-icon.sh",
+    "pack:mac": "npm run icon:mac && electron-builder --mac dir",
+    "dist:mac": "npm run icon:mac && electron-builder --mac dmg",
+    "desktop:install": "./scripts/install-desktop.sh"
   },
   "devDependencies": {
-    "electron": "^36.0.0"
+    "electron": "^36.0.0",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.maxxdwh.snitch",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/icon.icns",
+      "target": [
+        "dir"
+      ]
+    }
   }
 }

@@ -29,3 +29,13 @@ Snitch is a macOS menu bar app that shows which local processes are listening on
 npm install
 npm start
 ```
+
+## Launch From Desktop (macOS)
+
+Build a standalone macOS app bundle and copy it to your Desktop:
+
+```bash
+npm run desktop:install
+```
+
+Then launch `Snitch.app` from your Desktop like a normal app icon.
