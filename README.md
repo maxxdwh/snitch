@@ -16,6 +16,8 @@ Snitch is a tiny macOS menu bar app that shows which local processes are listeni
 3. Drag `Snitch.app` into `Applications`
 4. Launch Snitch from `Applications`
 
+If you get stuck installing because it's not notarised by Apple (I don't have an Apple Dev account right now), head to `System Settings` then to `Privacy & Security` and click `Open Anyway`. Use good judgement to decide if you trust me or not 🪤
+
 ## What Snitch does
 
 - Lives in your menu bar with a live process count (`🐀 N`)
