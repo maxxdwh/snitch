@@ -1,16 +1,20 @@
-const { app, BrowserWindow, ipcMain, Tray, nativeImage, Menu, shell, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, Tray, nativeImage, Menu, shell, screen, dialog } = require('electron');
 const path = require('path');
 const { execFile } = require('child_process');
+const { autoUpdater } = require('electron-updater');
 
 const WINDOW_WIDTH = 375;
 const WINDOW_MIN_HEIGHT = 120;
 const WINDOW_MAX_HEIGHT = 600;
 const TRAY_POLL_MS = 4000;
+const UPDATE_CHECK_MS = 6 * 60 * 60 * 1000;
 
 let mainWindow = null;
 let tray = null;
 let isQuitting = false;
 let trayCountTimer = null;
+let updateCheckTimer = null;
+let manualUpdateCheck = false;
 
 function run(cmd, args) {
   return new Promise((resolve, reject) => {
@@ -315,7 +319,28 @@ function createTray() {
   tray.setToolTip('Rat');
   setTrayCount(0);
 
-  tray.on('click', () => {
+  const trayMenu = Menu.buildFromTemplate([
+    { label: 'Show Snitch', click: () => showWindowFromTray() },
+    { label: 'Check for Updates…', click: () => checkForUpdates(true) },
+    { type: 'separator' },
+    {
+      label: 'Quit',
+      click: () => {
+        isQuitting = true;
+        app.quit();
+      }
+    }
+  ]);
+
+  tray.on('click', (event) => {
+    const mouseButton = typeof event?.button === 'number' ? event.button : 0;
+    if (mouseButton !== 0) return;
+
+    if (process.platform === 'darwin' && event?.ctrlKey) {
+      tray.popUpContextMenu(trayMenu);
+      return;
+    }
+
     if (!mainWindow) return;
     if (mainWindow.isVisible()) {
       mainWindow.hide();
@@ -324,18 +349,85 @@ function createTray() {
     }
   });
 
-  tray.setContextMenu(
-    Menu.buildFromTemplate([
-      { label: 'Show Snitch', click: () => showWindowFromTray() },
-      {
-        label: 'Quit',
-        click: () => {
-          isQuitting = true;
-          app.quit();
-        }
-      }
-    ])
-  );
+  tray.on('right-click', () => {
+    tray.popUpContextMenu(trayMenu);
+  });
+}
+
+async function checkForUpdates(isManual = false) {
+  if (!app.isPackaged) return;
+
+  manualUpdateCheck = isManual;
+  try {
+    await autoUpdater.checkForUpdates();
+  } catch (error) {
+    if (!isManual) return;
+    await dialog.showMessageBox({
+      type: 'error',
+      title: 'Update Check Failed',
+      message: 'Unable to check for updates right now.',
+      detail: error && error.message ? error.message : String(error),
+      buttons: ['OK']
+    });
+  }
+}
+
+function setupAutoUpdates() {
+  if (!app.isPackaged) return;
+
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true;
+
+  autoUpdater.on('update-not-available', async () => {
+    if (!manualUpdateCheck) return;
+    manualUpdateCheck = false;
+
+    await dialog.showMessageBox({
+      type: 'info',
+      title: 'No Updates',
+      message: `Snitch ${app.getVersion()} is up to date.`,
+      buttons: ['OK']
+    });
+  });
+
+  autoUpdater.on('error', () => {
+    manualUpdateCheck = false;
+  });
+
+  autoUpdater.on('update-available', async (info) => {
+    if (!manualUpdateCheck) return;
+    manualUpdateCheck = false;
+
+    await dialog.showMessageBox({
+      type: 'info',
+      title: 'Update Found',
+      message: `Downloading Snitch ${info.version} now.`,
+      buttons: ['OK']
+    });
+  });
+
+  autoUpdater.on('update-downloaded', async (info) => {
+    manualUpdateCheck = false;
+
+    const { response } = await dialog.showMessageBox({
+      type: 'info',
+      title: 'Update Ready',
+      message: `Snitch ${info.version} has been downloaded.`,
+      detail: 'Restart now to install the update?',
+      buttons: ['Restart & Install', 'Later'],
+      defaultId: 0,
+      cancelId: 1
+    });
+
+    if (response !== 0) return;
+    isQuitting = true;
+    autoUpdater.quitAndInstall();
+  });
+
+  checkForUpdates(false);
+  updateCheckTimer = setInterval(() => {
+    checkForUpdates(false);
+  }, UPDATE_CHECK_MS);
 }
 
 app.whenReady().then(() => {
@@ -343,6 +435,7 @@ app.whenReady().then(() => {
 
   createWindow();
   createTray();
+  setupAutoUpdates();
   refreshTrayCount();
 
   trayCountTimer = setInterval(() => {
@@ -359,7 +452,13 @@ app.on('window-all-closed', () => {
 });
 
 app.on('before-quit', () => {
-  if (!trayCountTimer) return;
-  clearInterval(trayCountTimer);
-  trayCountTimer = null;
+  if (trayCountTimer) {
+    clearInterval(trayCountTimer);
+    trayCountTimer = null;
+  }
+
+  if (updateCheckTimer) {
+    clearInterval(updateCheckTimer);
+    updateCheckTimer = null;
+  }
 });

@@ -7,9 +7,14 @@
   "scripts": {
     "start": "electron .",
     "icon:mac": "./scripts/build-icon.sh",
-    "pack:mac": "npm run icon:mac && electron-builder --mac dir",
-    "dist:mac": "npm run icon:mac && electron-builder --mac dmg",
+    "pack:mac": "npm run pack:mac:arm64",
+    "pack:mac:arm64": "npm run icon:mac && electron-builder --mac dir --arm64",
+    "dist:mac": "npm run dist:mac:arm64",
+    "dist:mac:arm64": "npm run icon:mac && electron-builder --mac dmg zip --arm64",
     "desktop:install": "./scripts/install-desktop.sh"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2"
   },
   "devDependencies": {
     "electron": "^36.0.0",
@@ -19,10 +24,40 @@
     "appId": "com.maxxdwh.snitch",
     "mac": {
       "category": "public.app-category.developer-tools",
+      "artifactName": "Snitch-${arch}.${ext}",
       "icon": "assets/icon.icns",
       "target": [
         "dir"
       ]
-    }
+    },
+    "dmg": {
+      "artifactName": "Snitch-${arch}.dmg",
+      "background": "assets/dmg-background.png",
+      "iconSize": 128,
+      "window": {
+        "width": 660,
+        "height": 400
+      },
+      "contents": [
+        {
+          "x": 180,
+          "y": 185,
+          "type": "file"
+        },
+        {
+          "x": 480,
+          "y": 185,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "maxxdwh",
+        "repo": "snitch"
+      }
+    ]
   }
 }

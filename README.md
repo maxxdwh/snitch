@@ -2,42 +2,64 @@
 
 # Snitch
 
-Snitch is a macOS menu bar app that shows which local processes are listening on TCP ports, lets you jump to `localhost` for a process, and kill stuck services without leaving your flow.
+Snitch is a tiny macOS menu bar app that shows which local processes are listening on ports, opens localhost quickly, and kills stuck services.
 
-## What Snitch does
+## Download (Apple Silicon)
 
-- Lives in the menu bar with a live process count (`🐀 N`)
-- Lists active local listening processes (PID, folder, ports)
+- Direct DMG download: [Snitch for Apple Silicon](https://github.com/maxxdwh/snitch/releases/latest/download/Snitch-arm64.dmg)
+- All releases: [GitHub Releases](https://github.com/maxxdwh/snitch/releases)
+
+## Install
+
+1. Download the DMG.
+2. Open it.
+3. Drag `Snitch.app` into `Applications`.
+4. Launch Snitch from `Applications`.
+
+## What It Does
+
+- Lives in your menu bar with a live process count (`🐀 N`)
+- Shows local listening processes with PID, folder, and ports
 - Prioritizes processes tied to real project folders
-- Opens `http://localhost:<port>` when you click a row
+- Opens `http://localhost:<port>` from a row click
 - Kills a process in one click (`SIGTERM`, then `SIGKILL` fallback)
-- Refreshes automatically and resizes the panel to content
 
-## Why use Snitch
+## Auto Updates
 
-- Faster local debugging: see port conflicts instantly
-- Fewer context switches: manage services from the menu bar, not multiple terminals
-- Quicker recovery: kill hung processes immediately
-- Better visibility: know what is exposed on your machine at a glance
+Snitch checks GitHub Releases for updates when running as a packaged app.
 
-## Requirements
+- Manual: tray menu -> `Check for Updates…`
+- Automatic: periodic background checks
+- Install: prompted to restart when an update is downloaded
 
+## Run From Source
+
+Requirements:
 - macOS
 - Node.js + npm
-
-## Run
 
 ```bash
 npm install
 npm start
 ```
 
-## Launch From Desktop (macOS)
-
-Build a standalone macOS app bundle and copy it to your Desktop:
+## Build Release Artifacts (Apple Silicon)
 
 ```bash
-npm run desktop:install
+npm run dist:mac
 ```
 
-Then launch `Snitch.app` from your Desktop like a normal app icon.
+Generated files:
+- `dist/Snitch-arm64.dmg`
+- `dist/Snitch-arm64.zip`
+- `dist/latest-mac.yml`
+
+## Publish A New Release
+
+1. Bump `version` in `package.json`.
+2. Run `npm run dist:mac`.
+3. Create GitHub release tag `v<version>` on `maxxdwh/snitch`.
+4. Upload:
+- `dist/Snitch-arm64.dmg`
+- `dist/Snitch-arm64.zip`
+- `dist/latest-mac.yml`
