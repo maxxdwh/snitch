@@ -1,7 +1,7 @@
 {
   "name": "snitch-app",
   "productName": "Snitch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "macOS menu bar utility for local listening processes",
   "main": "src/main.js",
   "scripts": {
@@ -24,14 +24,14 @@
     "appId": "com.maxxdwh.snitch",
     "mac": {
       "category": "public.app-category.developer-tools",
-      "artifactName": "Snitch-${arch}.${ext}",
+      "artifactName": "Snitch-apple-silicon.${ext}",
       "icon": "assets/icon.icns",
       "target": [
         "dir"
       ]
     },
     "dmg": {
-      "artifactName": "Snitch-${arch}.dmg",
+      "artifactName": "Snitch-apple-silicon.dmg",
       "background": "assets/dmg-background.png",
       "iconSize": 128,
       "window": {

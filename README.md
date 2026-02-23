@@ -6,7 +6,7 @@ Snitch is a tiny macOS menu bar app that shows which local processes are listeni
 
 ## Download (Apple Silicon)
 
-- Latest version: [Snitch for Apple Silicon](https://github.com/maxxdwh/snitch/releases/latest/download/Snitch-arm64.dmg)
+- Direct DMG download: [Snitch for Apple Silicon](https://github.com/maxxdwh/snitch/releases/latest/download/Snitch-apple-silicon.dmg)
 - All releases: [GitHub Releases](https://github.com/maxxdwh/snitch/releases)
 
 ## Install
