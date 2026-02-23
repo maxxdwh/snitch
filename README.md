@@ -1,8 +1,10 @@
+<img width="64" height="64" alt="snith-large" src="https://github.com/user-attachments/assets/4687df26-c7fe-42e6-a1ea-ced3963e5348" />
+
 # Snitch
 
 Snitch is a macOS menu bar app that shows which local processes are listening on TCP ports, lets you jump to `localhost` for a process, and kill stuck services without leaving your flow.
 
-## What The App Does
+## What Snitch does
 
 - Lives in the menu bar with a live process count (`🐀 N`)
 - Lists active local listening processes (PID, folder, ports)
@@ -11,7 +13,7 @@ Snitch is a macOS menu bar app that shows which local processes are listening on
 - Kills a process in one click (`SIGTERM`, then `SIGKILL` fallback)
 - Refreshes automatically and resizes the panel to content
 
-## Why Use Snitch
+## Why use Snitch
 
 - Faster local debugging: see port conflicts instantly
 - Fewer context switches: manage services from the menu bar, not multiple terminals
