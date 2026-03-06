@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snitch</title>
+    <meta
+      name="description"
+      content="Snitch is a tiny macOS menu bar app that shows listening local processes, opens localhost quickly, and kills stuck services."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <img
+          class="app-icon"
+          src="https://github.com/user-attachments/assets/4687df26-c7fe-42e6-a1ea-ced3963e5348"
+          alt="Snitch app icon"
+          width="128"
+          height="128"
+        />
+        <h1>Snitch</h1>
+        <p>
+          Snitch is a tiny macOS menu bar app that shows which local processes
+          are listening on ports, opens localhost quickly, and kills stuck
+          services.
+        </p>
+      </header>
+
+      <section>
+        <h2>Download (Apple Silicon)</h2>
+        <ul>
+          <li>
+            <a
+              href="https://github.com/maxxdwh/snitch/releases/latest/download/Snitch-apple-silicon.dmg"
+            >
+              Direct DMG download: Snitch for Apple Silicon
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/maxxdwh/snitch/releases"
+              >All releases: GitHub Releases</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Install</h2>
+        <ol>
+          <li>Download the DMG above.</li>
+          <li>Open it.</li>
+          <li>Drag <code>Snitch.app</code> into <code>Applications</code>.</li>
+          <li>Launch Snitch from <code>Applications</code>.</li>
+        </ol>
+        <p>
+          If you get stuck installing because it is not notarized by Apple (I
+          do not have an Apple Dev account right now), go to
+          <code>System Settings</code> then <code>Privacy &amp; Security</code>
+          and click <code>Open Anyway</code>. Use good judgment to decide if you
+          trust me.
+        </p>
+      </section>
+
+      <section>
+        <h2>What Snitch does</h2>
+        <ul>
+          <li>Lives in your menu bar with a live process count (<code>🐀 N</code>).</li>
+          <li>
+            Shows local listening processes with PID, folder, and ports.
+          </li>
+          <li>
+            Prioritizes processes tied to real project folders (vibe-coder
+            friendly).
+          </li>
+          <li>Opens <code>http://localhost:&lt;port&gt;</code> from a row click.</li>
+          <li>
+            Kills a process in one click (<code>SIGTERM</code>, then
+            <code>SIGKILL</code> fallback).
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Automatic updates</h2>
+        <p>Snitch checks GitHub Releases for updates when running as a packaged app.</p>
+        <ul>
+          <li>Automatic: periodic background checks.</li>
+          <li>
+            Manual: Right-click <code>🐀</code> in your menu bar and choose
+            <code>Check for Updates…</code>.
+          </li>
+          <li>
+            Install: prompted to restart when an update is downloaded.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Feedback</h2>
+        <p>
+          Found a bug or have an idea?
+          <a href="https://github.com/maxxdwh/snitch/issues">Open an issue</a>.
+          All feedback is welcome.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
